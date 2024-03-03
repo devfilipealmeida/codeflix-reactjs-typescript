@@ -2,7 +2,7 @@ import { Box, Button, IconButton, Typography } from "@mui/material";
 import { useAppSelector } from "../../app/hooks";
 import { selectCategories } from "./categorySlice";
 import { Link } from "react-router-dom";
-import { DataGrid, GridColDef, GridRenderCellParams, GridRowsProp } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridRenderCellParams, GridRowsProp, GridToolbar } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 export const CategoryList = () => {
@@ -22,11 +22,6 @@ export const CategoryList = () => {
       headerName: "Name", 
       flex: 1,
     },
-    // { 
-    //   field: "description", 
-    //   headerName: "Description", 
-    //   flex: 1, 
-    // },
     {
       field: "isActive",
       headerName: "Active",
@@ -80,14 +75,22 @@ export const CategoryList = () => {
           New Category
         </Button>
       </Box>
-        Category List
-        {/* {categories.map((category) => (
-            <Typography key={category.id}>
-              {category.name}
-            </Typography>
-        ))} */}
         <div style={{ height: 300, width: "100%" }}>
-          <DataGrid rows={rows} columns={columns} />
+          <DataGrid 
+            rows={rows} 
+            columns={columns} 
+            disableColumnSelector={true}
+            disableRowSelectionOnClick={true}
+            disableColumnFilter={true}
+            disableDensitySelector={true}
+            components={{ Toolbar: GridToolbar }}
+            componentsProps={{
+              toolbar: {
+                showQuickFilter: true,
+                quickFilterProps: { debounceMs: 500 }
+              }
+            }}
+            />
         </div>
     </Box>
   )
