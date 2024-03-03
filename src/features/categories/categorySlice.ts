@@ -25,7 +25,7 @@ export const initialState = [
     category,
     {...category, id: "650e8400-e29b-41d4-a716-446655440000", name: "Peach"},
     {...category, id: "750e8400-e29b-41d4-a716-446655440000", name: "Apple"},
-    {...category, id: "850e8400-e29b-41d4-a716-446655440000", name: "Banana"},
+    {...category, id: "850e8400-e29b-41d4-a716-446655440000", name: "Banana", is_active: false},
 ]
 
 const categoriesSlice = createSlice({
