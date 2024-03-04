@@ -1,12 +1,13 @@
 import { Box, Button, IconButton, Typography } from "@mui/material";
-import { useAppSelector } from "../../app/hooks";
-import { selectCategories } from "./categorySlice";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { deleteCategory, selectCategories } from "./categorySlice";
 import { Link } from "react-router-dom";
 import { DataGrid, GridColDef, GridRenderCellParams, GridRowsProp, GridToolbar } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 export const CategoryList = () => {
   const categories = useAppSelector(selectCategories)
+  const dispatch = useAppDispatch();
 
   const componentProps = {
     toolbar: {
@@ -45,6 +46,7 @@ export const CategoryList = () => {
     {
       field: "id",
       headerName: "Actions",
+      type: "string",
       flex: 1,
       renderCell: renderActionsCell,
     }
@@ -58,16 +60,21 @@ export const CategoryList = () => {
     )
   }
 
-  function renderActionsCell(rowData: GridRenderCellParams) {
+  function renderActionsCell(params: GridRenderCellParams) {
+    const { id } = params;
     return (
       <IconButton
         color="secondary"
-        onClick={() => console.log("clicked")}
+        onClick={() => handleDeleteCategory(params.value)}
         aria-label="delete"
       >
         <DeleteIcon />
       </IconButton>
     )
+  }
+
+  function handleDeleteCategory(id: string) {
+    dispatch(deleteCategory(id))
   }
 
   function renderNameCell(rowData: GridRenderCellParams) {
@@ -94,7 +101,6 @@ export const CategoryList = () => {
           New Category
         </Button>
       </Box>
-        {/* <Box sx={{ display: "flex", height: 600 }}> */}
           <DataGrid 
             rows={rows} 
             columns={columns} 
@@ -105,7 +111,6 @@ export const CategoryList = () => {
             componentsProps={componentProps}
             components={{ Toolbar: GridToolbar }}
             />
-        {/* </Box> */}
     </Box>
   )
 }
