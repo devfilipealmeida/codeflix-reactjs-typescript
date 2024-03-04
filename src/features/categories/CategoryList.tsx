@@ -8,6 +8,13 @@ import DeleteIcon from "@mui/icons-material/Delete";
 export const CategoryList = () => {
   const categories = useAppSelector(selectCategories)
 
+  const componentProps = {
+    toolbar: {
+      showQuickFilter: true,
+      quickFilterProps: { debounceMs: 500 }
+    }
+  }
+
   const rows: GridRowsProp = categories.map((category) => ({
     id: category.id,
     name: category.name,
@@ -21,6 +28,7 @@ export const CategoryList = () => {
       field: "name", 
       headerName: "Name", 
       flex: 1,
+      renderCell: renderNameCell,
     },
     {
       field: "isActive",
@@ -62,6 +70,17 @@ export const CategoryList = () => {
     )
   }
 
+  function renderNameCell(rowData: GridRenderCellParams) {
+    return (
+      <Link
+        style={{ textDecoration: "none" }}
+        to={`/categories/edit/${rowData.id}`}
+      >
+        <Typography color="primary">{rowData.value}</Typography>
+      </Link>
+    )
+  }
+
   return (
     <Box maxWidth="lg" sx={{ mt:4, mb:4 }}>
       <Box display="flex" justifyContent="flex-end">
@@ -75,23 +94,18 @@ export const CategoryList = () => {
           New Category
         </Button>
       </Box>
-        <div style={{ height: 300, width: "100%" }}>
+        {/* <Box sx={{ display: "flex", height: 600 }}> */}
           <DataGrid 
             rows={rows} 
             columns={columns} 
-            disableColumnSelector={true}
-            disableRowSelectionOnClick={true}
             disableColumnFilter={true}
+            disableColumnSelector={true}
             disableDensitySelector={true}
+            disableRowSelectionOnClick={true}
+            componentsProps={componentProps}
             components={{ Toolbar: GridToolbar }}
-            componentsProps={{
-              toolbar: {
-                showQuickFilter: true,
-                quickFilterProps: { debounceMs: 500 }
-              }
-            }}
             />
-        </div>
+        {/* </Box> */}
     </Box>
   )
 }

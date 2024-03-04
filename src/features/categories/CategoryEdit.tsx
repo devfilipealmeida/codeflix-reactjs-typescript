@@ -2,6 +2,7 @@ import { Box, Button, FormControl, FormControlLabel, FormGroup, Grid, Paper, Swi
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useAppSelector } from "../../app/hooks";
+import { selectCategoryById } from "./categorySlice";
 
 export const CategoryEdit = () => {
   const id = useParams().id || "";
